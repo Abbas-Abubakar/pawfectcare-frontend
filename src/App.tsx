@@ -17,6 +17,12 @@ import { VerifyOtp } from '@/pages/auth/VerifyOtp';
 import { Login } from '@/pages/auth/Login';
 import { ForgotPassword } from '@/pages/auth/ForgotPassword';
 import { ResetPassword } from '@/pages/auth/ResetPassword';
+import { PetsList } from './pages/owner/PetList';
+import { DashboardLayout } from './layouts/DashboardLayout';
+import { AddEditPet } from './pages/owner/AddEditPet';
+import { PetDetail } from './pages/owner/PetDetail';
+import { BookAppointment } from './pages/owner/BookAppointment';
+import { AppointmentsList } from './pages/owner/AppointmentsList';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -124,7 +130,18 @@ const router = createBrowserRouter(
 
       {/* Pet Owner section — guarded to pet_owner role only */}
       <Route element={<ProtectedRoute allowedRoles={['pet_owner']} />}>
-        <Route path="owner/dashboard" element={<DashboardPlaceholder label="Owner Dashboard" />} />
+        <Route path="owner" element={<DashboardLayout />}>
+          <Route index element={<PetsList />} />
+          <Route path="pets/new" element={<AddEditPet />} />
+          <Route path="pets/:id/edit" element={<AddEditPet />} />
+          <Route path="pets/:id" element={<PetDetail />} />
+          <Route path="appointments" element={<AppointmentsList />} />
+          <Route path="appointments/new" element={<BookAppointment />} />
+          <Route path="store" element={<DashboardPlaceholder label="Pet Store" />} />
+          <Route path="blog" element={<DashboardPlaceholder label="Blog & Tips" />} />
+          <Route path="notifications" element={<DashboardPlaceholder label="Notifications" />} />
+          <Route path="profile" element={<DashboardPlaceholder label="Profile" />} />
+        </Route>
       </Route>
 
       {/* Veterinarian section — guarded to veterinarian role only */}
