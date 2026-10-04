@@ -30,6 +30,12 @@ import { BlogList } from './pages/owner/BlogList';
 import { BookmarksPage } from './pages/owner/BookmarksPage';
 import { ProfilePage } from './pages/shared/ProfilePage';
 import { NotificationsPage } from './pages/shared/NotificationsPage';
+import { VetPatientDetail } from './pages/vet/VetPatientDetail';
+import { VetPatients } from './pages/vet/VetPatients';
+import { VetDashboard } from './pages/vet/VetDashboard';
+import { VetAvailabilityPage } from './pages/VetAvailabilityPage';
+import { VetAppointmentsPage } from './pages/vet/VetAppointmentPage';
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -155,8 +161,14 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Veterinarian section — guarded to veterinarian role only */}
-      <Route element={<ProtectedRoute allowedRoles={['veterinarian']} />}>
-        <Route path="vet/dashboard" element={<DashboardPlaceholder label="Vet Dashboard" />} />
+      <Route path="vet" element={<DashboardLayout />}>
+        <Route index element={<VetDashboard />} />
+        <Route path="appointments" element={<VetAppointmentsPage />} />
+        <Route path="availability" element={<VetAvailabilityPage />} />
+        <Route path="patients" element={<VetPatients />} />
+        <Route path="patients/:id" element={<VetPatientDetail />} />
+        <Route path="notifications" element={<NotificationsPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
 
       {/* Shelter Admin section — guarded to shelter_admin role only */}

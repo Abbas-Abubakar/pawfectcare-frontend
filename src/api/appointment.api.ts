@@ -29,4 +29,18 @@ export const appointmentApi = {
     const { data } = await apiClient.patch(`/appointments/${id}/reschedule`, { newAvailabilityId });
     return data;
   },
+  confirm: async (id: string): Promise<AppointmentResponse> => {
+    const { data } = await apiClient.patch(`/appointments/${id}/confirm`);
+    return data;
+  },
+
+  reject: async (id: string, reason?: string): Promise<AppointmentResponse> => {
+    const { data } = await apiClient.patch(`/appointments/${id}/reject`, { cancelReason: reason });
+    return data;
+  },
+
+  complete: async (id: string): Promise<AppointmentResponse> => {
+    const { data } = await apiClient.patch(`/appointments/${id}/complete`);
+    return data;
+  },
 };

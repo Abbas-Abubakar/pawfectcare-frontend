@@ -5,7 +5,7 @@ export const getDashboardPath = (role: UserRole): string => {
     case 'pet_owner':
       return '/owner';
     case 'veterinarian':
-      return '/vet/dashboard';
+      return '/vet';
     case 'shelter_admin':
       return '/shelter/dashboard';
     default:

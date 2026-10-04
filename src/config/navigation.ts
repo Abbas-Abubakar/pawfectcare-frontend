@@ -18,11 +18,13 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
     { label: 'Profile', path: '/owner/profile', icon: '👤' },
   ],
   veterinarian: [
-    { label: "Today's Appointments", path: '/vet/dashboard', icon: '📅' },
-    { label: 'My Patients', path: '/vet/patients', icon: '🐾' },
-    { label: 'Notifications', path: '/vet/notifications', icon: '🔔' },
-    { label: 'Profile', path: '/vet/profile', icon: '👤' },
-  ],
+  { label: "Today's Appointments", path: '.', icon: '📅' },
+  { label: 'All Appointments', path: '/vet/appointments', icon: '🗂️' },
+  { label: 'My Availability', path: '/vet/availability', icon: '🗓️' },
+  { label: 'My Patients', path: '/vet/patients', icon: '🐾' },
+  { label: 'Notifications', path: '/vet/notifications', icon: '🔔' },
+  { label: 'Profile', path: '/vet/profile', icon: '👤' },
+],
   shelter_admin: [
     { label: 'Adoption Listings', path: '/shelter/listings', icon: '🏠' },
     { label: 'Requests', path: '/shelter/requests', icon: '📋' },
