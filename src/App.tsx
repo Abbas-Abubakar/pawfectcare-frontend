@@ -23,6 +23,11 @@ import { AddEditPet } from './pages/owner/AddEditPet';
 import { PetDetail } from './pages/owner/PetDetail';
 import { BookAppointment } from './pages/owner/BookAppointment';
 import { AppointmentsList } from './pages/owner/AppointmentsList';
+import { WishlistPage } from './pages/owner/Wishlist';
+import { PetStore } from './pages/owner/PetStore';
+import { BlogDetail } from './pages/owner/BlogDetail';
+import { BlogList } from './pages/owner/BlogList';
+import { BookmarksPage } from './pages/owner/BookmarksPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -137,8 +142,11 @@ const router = createBrowserRouter(
           <Route path="pets/:id" element={<PetDetail />} />
           <Route path="appointments" element={<AppointmentsList />} />
           <Route path="appointments/new" element={<BookAppointment />} />
-          <Route path="store" element={<DashboardPlaceholder label="Pet Store" />} />
-          <Route path="blog" element={<DashboardPlaceholder label="Blog & Tips" />} />
+          <Route path="store" element={<PetStore />} />
+          <Route path="wishlist" element={<WishlistPage />} />
+          <Route path="blog" element={<BlogList />} />
+          <Route path="blog/:id" element={<BlogDetail />} />
+          <Route path="bookmarks" element={<BookmarksPage />} />
           <Route path="notifications" element={<DashboardPlaceholder label="Notifications" />} />
           <Route path="profile" element={<DashboardPlaceholder label="Profile" />} />
         </Route>
