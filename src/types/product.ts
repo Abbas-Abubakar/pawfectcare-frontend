@@ -1,3 +1,5 @@
+import type { PaginationMeta } from ".";
+
 export type ProductCategory = 'food' | 'toys' | 'grooming' | 'accessories' | 'health' | 'other';
 
 export interface Product {
@@ -14,14 +16,7 @@ export interface Product {
 export interface ProductsResponse {
   success: boolean;
   count: number;
-  pagination: {
-    page: number;
-    limit: number;
-    totalCount: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-  };
+  pagination: PaginationMeta;
   products: Product[];
 }
 

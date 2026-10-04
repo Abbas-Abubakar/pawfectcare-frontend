@@ -2,14 +2,17 @@ import { NavLink } from 'react-router-dom';
 import { navigationByRole } from '@/config/navigation';
 import { useAuthStore } from '@/store/authStore';
 import { authApi } from '@/api/auth.api';
+import { useNotifications } from '@/hooks/useNotifications';
 
 export const Sidebar = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const { data: notificationsData } = useNotifications();
 
   if (!user) return null;
 
   const navItems = navigationByRole[user.role];
+  const unreadCount = notificationsData?.unreadCount ?? 0;
 
   const handleLogout = async () => {
     await authApi.logout();
@@ -36,23 +39,34 @@ export const Sidebar = () => {
             to={item.path}
             end={item.path === '.'}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
+              `flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-coral-light text-coral-dark'
                   : 'text-ink/60 hover:bg-cream hover:text-ink'
               }`
             }
           >
-            <span className="text-lg">{item.icon}</span>
-            {item.label}
+            <span className="flex items-center gap-3">
+              <span className="text-lg">{item.icon}</span>
+              {item.label}
+            </span>
+            {item.label === 'Notifications' && unreadCount > 0 && (
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-coral px-1.5 text-xs font-bold text-white">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
           </NavLink>
         ))}
       </nav>
 
       <div className="border-t border-ink/10 pt-4">
         <div className="flex items-center gap-3 px-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sunshine font-display font-bold text-ink">
-            {user.name.charAt(0).toUpperCase()}
+          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-sunshine font-display font-bold text-ink">
+            {user.profilePhoto?.url ? (
+              <img src={user.profilePhoto.url} alt={user.name} className="h-full w-full object-cover" />
+            ) : (
+              user.name.charAt(0).toUpperCase()
+            )}
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-ink">{user.name}</p>

@@ -11,3 +11,22 @@ export interface User {
   isVerified: boolean;
   createdAt: string;
 }
+
+
+export type UpdateProfilePayload = Partial<Pick<User, 'name' | 'phone'>> & {
+  photo?: File;
+};
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  totalCount: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}

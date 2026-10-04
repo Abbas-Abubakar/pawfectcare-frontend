@@ -1,3 +1,5 @@
+import type { PaginationMeta } from ".";
+
 export type BlogCategory = 'nutrition' | 'health' | 'training' | 'grooming' | 'adoption' | 'general';
 
 export interface BlogPost {
@@ -14,14 +16,7 @@ export interface BlogPost {
 export interface BlogPostsResponse {
   success: boolean;
   count: number;
-  pagination: {
-    page: number;
-    limit: number;
-    totalCount: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-  };
+  pagination: PaginationMeta;
   posts: BlogPost[];
 }
 

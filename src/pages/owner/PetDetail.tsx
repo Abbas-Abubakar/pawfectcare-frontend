@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { usePet } from '@/hooks/usePets';
 import { useHealthRecords } from '@/hooks/useHealthRecords';
 import { Tabs } from '@/components/Tabs';
@@ -15,7 +15,7 @@ const formatAge = (years: number | null): string => {
 
 export const PetDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+
   const [isAddRecordOpen, setIsAddRecordOpen] = useState(false);
 
   const { data: petData, isLoading: petLoading } = usePet(id!);

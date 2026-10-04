@@ -15,17 +15,16 @@ export interface HealthRecord {
   createdAt: string;
 }
 
+type HealthRecordBaseFormFields = Required<
+  Pick<HealthRecord, 'type' | 'title' | 'description' | 'dateAdministered' | 'nextDueDate'>
+>;
+
+export interface HealthRecordFormValues extends HealthRecordBaseFormFields {
+  severity: Severity | '';
+}
+
 export interface HealthRecordsResponse {
   success: boolean;
   count: number;
   records: HealthRecord[];
-}
-
-export interface HealthRecordFormValues {
-  type: HealthRecordType;
-  title: string;
-  description: string;
-  dateAdministered: string;
-  nextDueDate: string;
-  severity: Severity | '';
 }

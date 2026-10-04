@@ -28,6 +28,8 @@ import { PetStore } from './pages/owner/PetStore';
 import { BlogDetail } from './pages/owner/BlogDetail';
 import { BlogList } from './pages/owner/BlogList';
 import { BookmarksPage } from './pages/owner/BookmarksPage';
+import { ProfilePage } from './pages/shared/ProfilePage';
+import { NotificationsPage } from './pages/shared/NotificationsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -147,8 +149,8 @@ const router = createBrowserRouter(
           <Route path="blog" element={<BlogList />} />
           <Route path="blog/:id" element={<BlogDetail />} />
           <Route path="bookmarks" element={<BookmarksPage />} />
-          <Route path="notifications" element={<DashboardPlaceholder label="Notifications" />} />
-          <Route path="profile" element={<DashboardPlaceholder label="Profile" />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Route>
 

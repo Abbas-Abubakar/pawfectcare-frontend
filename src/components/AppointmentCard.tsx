@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Appointment } from '@/types/appointment';
+import { RescheduleModal } from '@/components/RescheduleModal';
 
 const STATUS_STYLES: Record<Appointment['status'], string> = {
   pending: 'bg-sunshine/30 text-ink',
@@ -16,8 +17,9 @@ interface AppointmentCardProps {
 
 export const AppointmentCard = ({ appointment, onCancel, isCancelling }: AppointmentCardProps) => {
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
 
-  const canCancel = appointment.status === 'pending' || appointment.status === 'confirmed';
+  const canModify = appointment.status === 'pending' || appointment.status === 'confirmed';
 
   return (
     <div className="rounded-3xl border-2 border-ink/5 p-5">
@@ -56,8 +58,15 @@ export const AppointmentCard = ({ appointment, onCancel, isCancelling }: Appoint
         <p className="mt-2 text-sm italic text-ink/40">Reason: {appointment.cancelReason}</p>
       )}
 
-      {canCancel && (
-        <div className="mt-4">
+      {canModify && (
+        <div className="mt-4 flex items-center gap-4">
+          <button
+            onClick={() => setIsRescheduleOpen(true)}
+            className="text-sm font-semibold text-coral hover:text-coral-dark"
+          >
+            Reschedule
+          </button>
+
           {showCancelConfirm ? (
             <div className="flex items-center gap-2">
               <span className="text-sm text-ink/60">Cancel this appointment?</span>
@@ -85,6 +94,12 @@ export const AppointmentCard = ({ appointment, onCancel, isCancelling }: Appoint
           )}
         </div>
       )}
+
+      <RescheduleModal
+        appointment={appointment}
+        isOpen={isRescheduleOpen}
+        onClose={() => setIsRescheduleOpen(false)}
+      />
     </div>
   );
 };
