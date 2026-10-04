@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #fff8f0;
+  --color-coral: #ff6b4a;
+  --color-coral-dark: #e8512e;
+  --color-coral-light: #ffe4d1;
+  --color-sunshine: #ffc93c;
+  --color-peach: #ffe4d1;
+  --color-ink: #3a2e26;
+
+  --font-display: "Baloo 2", cursive;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+
+  --radius-4xl: 2rem;
+
+  --shadow-coral: 0 8px 30px -4px rgb(255 107 74 / 0.35);
+}
+
+@layer base {
+  body {
+    @apply bg-cream font-body text-ink;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-coral px-6 py-3 font-semibold text-white shadow-[var(--shadow-coral)] transition-all hover:bg-coral-dark active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border-2 border-ink/10 bg-white px-6 py-3 font-semibold text-ink transition-all hover:border-coral hover:text-coral active:scale-[0.98];
+  }
+
+  .input-field {
+    @apply w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 text-ink placeholder:text-ink/40 transition-colors focus:border-coral focus:outline-none;
+  }
+
+  .form-label {
+    @apply mb-1.5 block text-sm font-medium text-ink/70;
+  }
+}
