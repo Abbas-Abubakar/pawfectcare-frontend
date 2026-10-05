@@ -46,6 +46,8 @@ import { AdoptionListingDetail } from './pages/owner/AdoptionListingDetail';
 import { AdoptionBrowse } from './pages/owner/AdoptionBrowse';
 import { AddEditBlogPost } from './pages/shared/AddEditBlogPost';
 import { MyBlogPosts } from './pages/shared/MyBlogPosts';
+import { FeedbackPage } from './pages/shared/FeedbackPage';
+import { FeedbackAdminView } from './pages/shared/FeedbackAdminView';
 
 
 const queryClient = new QueryClient({
@@ -169,6 +171,7 @@ const router = createBrowserRouter(
           <Route path="blog" element={<BlogList />} />
           <Route path="blog/:id" element={<BlogDetail />} />
           <Route path="bookmarks" element={<BookmarksPage />} />
+          <Route path="feedback" element={<FeedbackPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
@@ -186,6 +189,7 @@ const router = createBrowserRouter(
           <Route path="blog/new" element={<AddEditBlogPost />} />
           <Route path="blog/:id/edit" element={<AddEditBlogPost />} />
           <Route path="blog/:id" element={<BlogDetail />} />
+          <Route path="feedback" element={<FeedbackAdminView />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
@@ -205,6 +209,7 @@ const router = createBrowserRouter(
           <Route path="blog/:id/edit" element={<AddEditBlogPost />} />
           <Route path="blog/:id" element={<BlogDetail />} />
           <Route path="messages" element={<MessagesPage />} />
+          <Route path="feedback" element={<FeedbackAdminView />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
