@@ -17,3 +17,9 @@ export const useUpdateMessageStatus = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: CONTACT_MESSAGES_QUERY_KEY }),
   });
 };
+
+export const useSubmitContactMessage = () => {
+  return useMutation({
+    mutationFn: contactMessageApi.submit,
+  });
+};

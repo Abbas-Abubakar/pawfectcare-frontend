@@ -10,6 +10,7 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
   pet_owner: [
     { label: 'My Pets', path: '.', icon: '🐾' },
     { label: 'Appointments', path: '/owner/appointments', icon: '📅' },
+    { label: 'Adopt a Pet', path: '/owner/adopt', icon: '🏠' },
     { label: 'Pet Store', path: '/owner/store', icon: '🛒' },
     { label: 'Wishlist', path: '/owner/wishlist', icon: '🤍' },
     { label: 'Blog & Tips', path: '/owner/blog', icon: '📝' },

@@ -41,6 +41,9 @@ import { ListingsList } from './pages/shelter/ListingsList';
 import { SuccessStoriesList } from './pages/shelter/SuccessStoriesList';
 import { AddSuccessStory } from './pages/shelter/AddSuccessStory';
 import { MessagesPage } from './pages/shelter/MessagesPage';
+import { MyAdoptionRequests } from './pages/owner/MyAdoptionRequests';
+import { AdoptionListingDetail } from './pages/owner/AdoptionListingDetail';
+import { AdoptionBrowse } from './pages/owner/AdoptionBrowse';
 
 
 const queryClient = new QueryClient({
@@ -151,6 +154,9 @@ const router = createBrowserRouter(
       <Route element={<ProtectedRoute allowedRoles={['pet_owner']} />}>
         <Route path="owner" element={<DashboardLayout />}>
           <Route index element={<PetsList />} />
+          <Route path="adopt" element={<AdoptionBrowse />} />
+          <Route path="adopt/my-requests" element={<MyAdoptionRequests />} />
+          <Route path="adopt/:id" element={<AdoptionListingDetail />} />
           <Route path="pets/new" element={<AddEditPet />} />
           <Route path="pets/:id/edit" element={<AddEditPet />} />
           <Route path="pets/:id" element={<PetDetail />} />

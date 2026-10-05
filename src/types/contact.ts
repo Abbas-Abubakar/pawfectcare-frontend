@@ -19,3 +19,13 @@ export interface ContactMessagesResponse {
   count: number;
   messages: ContactMessage[];
 }
+
+export interface ContactSubmission {
+  type: 'contact' | 'volunteer';
+  name: string;
+  email: string;
+  phone?: string;
+  subject?: string;
+  message: string;
+  availability?: string;
+}
