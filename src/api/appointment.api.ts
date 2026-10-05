@@ -7,6 +7,14 @@ interface BookAppointmentPayload {
   reason: string;
 }
 
+export interface BlogPostFormValues {
+  title: string;
+  content: string;
+  excerpt: string;
+  category: string;
+  coverImage?: File;
+}
+
 export const appointmentApi = {
   getMyAppointments: async (status?: string): Promise<AppointmentsResponse> => {
     const { data } = await apiClient.get('/appointments/my-appointments', {

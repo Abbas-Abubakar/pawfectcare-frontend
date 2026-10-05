@@ -25,6 +25,14 @@ export interface BlogPostResponse {
   post: BlogPost;
 }
 
+export interface BlogPostFormValues {
+  title: string;
+  content: string;
+  excerpt: string;
+  category: string;
+  coverImage?: File;
+}
+
 export interface Bookmark {
   posts: BlogPost[];
 }

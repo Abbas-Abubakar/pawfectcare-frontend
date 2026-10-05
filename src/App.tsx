@@ -44,6 +44,8 @@ import { MessagesPage } from './pages/shelter/MessagesPage';
 import { MyAdoptionRequests } from './pages/owner/MyAdoptionRequests';
 import { AdoptionListingDetail } from './pages/owner/AdoptionListingDetail';
 import { AdoptionBrowse } from './pages/owner/AdoptionBrowse';
+import { AddEditBlogPost } from './pages/shared/AddEditBlogPost';
+import { MyBlogPosts } from './pages/shared/MyBlogPosts';
 
 
 const queryClient = new QueryClient({
@@ -175,11 +177,15 @@ const router = createBrowserRouter(
       {/* Veterinarian section — guarded to veterinarian role only */}
       <Route element={<ProtectedRoute allowedRoles={['veterinarian']} />}>
         <Route path="vet" element={<DashboardLayout />}>
-          <Route index element={<VetDashboard />} />
+          <Route path="dashboard" element={<VetDashboard />} />
           <Route path="appointments" element={<VetAppointmentsPage />} />
           <Route path="availability" element={<VetAvailabilityPage />} />
           <Route path="patients" element={<VetPatients />} />
           <Route path="patients/:id" element={<VetPatientDetail />} />
+          <Route path="blog" element={<MyBlogPosts />} />
+          <Route path="blog/new" element={<AddEditBlogPost />} />
+          <Route path="blog/:id/edit" element={<AddEditBlogPost />} />
+          <Route path="blog/:id" element={<BlogDetail />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
@@ -188,12 +194,16 @@ const router = createBrowserRouter(
       {/* Shelter Admin section — guarded to shelter_admin role only */}
       <Route element={<ProtectedRoute allowedRoles={['shelter_admin']} />}>
         <Route path="shelter" element={<DashboardLayout />}>
-          <Route index element={<ListingsList />} />
+          <Route path="listings" element={<ListingsList />} />
           <Route path="listings/new" element={<AddEditListing />} />
           <Route path="listings/:id/edit" element={<AddEditListing />} />
           <Route path="listings/:id" element={<ListingDetail />} />
           <Route path="stories" element={<SuccessStoriesList />} />
           <Route path="stories/new" element={<AddSuccessStory />} />
+          <Route path="blog" element={<MyBlogPosts />} />
+          <Route path="blog/new" element={<AddEditBlogPost />} />
+          <Route path="blog/:id/edit" element={<AddEditBlogPost />} />
+          <Route path="blog/:id" element={<BlogDetail />} />
           <Route path="messages" element={<MessagesPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
