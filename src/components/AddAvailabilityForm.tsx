@@ -7,10 +7,15 @@ interface TimeSlotInput {
   endTime: string;
 }
 
+interface AddAvailabilityFormProps {
+  onSuccess: () => void;
+  prefilledDate?: string;
+}
+
 const EMPTY_SLOT: TimeSlotInput = { startTime: '', endTime: '' };
 
-export const AddAvailabilityForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  const [date, setDate] = useState('');
+export const AddAvailabilityForm = ({ onSuccess, prefilledDate }: AddAvailabilityFormProps) => {
+  const [date, setDate] = useState(prefilledDate ?? '');
   const [slots, setSlots] = useState<TimeSlotInput[]>([{ ...EMPTY_SLOT }]);
   const [error, setError] = useState('');
 

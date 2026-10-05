@@ -161,30 +161,32 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Veterinarian section — guarded to veterinarian role only */}
-      <Route path="vet" element={<DashboardLayout />}>
-        <Route index element={<VetDashboard />} />
-        <Route path="appointments" element={<VetAppointmentsPage />} />
-        <Route path="availability" element={<VetAvailabilityPage />} />
-        <Route path="patients" element={<VetPatients />} />
-        <Route path="patients/:id" element={<VetPatientDetail />} />
-        <Route path="notifications" element={<NotificationsPage />} />
-        <Route path="profile" element={<ProfilePage />} />
+      <Route element={<ProtectedRoute allowedRoles={['veterinarian']} />}>
+        <Route path="vet" element={<DashboardLayout />}>
+          <Route index element={<VetDashboard />} />
+          <Route path="appointments" element={<VetAppointmentsPage />} />
+          <Route path="availability" element={<VetAvailabilityPage />} />
+          <Route path="patients" element={<VetPatients />} />
+          <Route path="patients/:id" element={<VetPatientDetail />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
       </Route>
 
-      {/* Shelter Admin section — guarded to shelter_admin role only */}
-      <Route element={<ProtectedRoute allowedRoles={['shelter_admin']} />}>
-        <Route path="shelter/dashboard" element={<DashboardPlaceholder label="Shelter Dashboard" />} />
+        {/* Shelter Admin section — guarded to shelter_admin role only */}
+        <Route element={<ProtectedRoute allowedRoles={['shelter_admin']} />}>
+          <Route path="shelter/dashboard" element={<DashboardPlaceholder label="Shelter Dashboard" />} />
+        </Route>
       </Route>
-    </Route>
-  )
-);
+      )
+      );
 
-function App() {
+      function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+      );
 }
 
-export default App;
+      export default App;

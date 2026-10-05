@@ -4,7 +4,12 @@ import { useAuthStore } from '@/store/authStore';
 import { authApi } from '@/api/auth.api';
 import { useNotifications } from '@/hooks/useNotifications';
 
-export const Sidebar = () => {
+interface SidebarProps {
+  isMobileOpen: boolean;
+  onMobileClose: () => void;
+}
+
+export const Sidebar = ({ isMobileOpen, onMobileClose }: SidebarProps) => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const { data: notificationsData } = useNotifications();
@@ -20,16 +25,22 @@ export const Sidebar = () => {
     window.location.href = '/auth/login';
   };
 
-  return (
-    <aside className="flex h-screen w-64 flex-col bg-white px-4 py-6">
-      <div className="flex items-center gap-2 px-2">
-        <svg viewBox="0 0 64 64" className="h-8 w-8">
-          <circle cx="32" cy="40" r="14" fill="#FF6B4A" />
-          <circle cx="14" cy="22" r="7" fill="#FF6B4A" />
-          <circle cx="32" cy="12" r="7.5" fill="#FF6B4A" />
-          <circle cx="50" cy="22" r="7" fill="#FF6B4A" />
-        </svg>
-        <span className="font-display text-xl font-bold text-ink">PawfectCare</span>
+  const sidebarContent = (
+    <>
+      <div className="flex items-center justify-between px-2">
+        <div className="flex items-center gap-2">
+          <svg viewBox="0 0 64 64" className="h-8 w-8">
+            <circle cx="32" cy="40" r="14" fill="#FF6B4A" />
+            <circle cx="14" cy="22" r="7" fill="#FF6B4A" />
+            <circle cx="32" cy="12" r="7.5" fill="#FF6B4A" />
+            <circle cx="50" cy="22" r="7" fill="#FF6B4A" />
+          </svg>
+          <span className="font-display text-xl font-bold text-ink">PawfectCare</span>
+        </div>
+        {/* Close button — only relevant in the mobile drawer context */}
+        <button onClick={onMobileClose} aria-label="Close menu" className="rounded-full p-1 text-ink/40 lg:hidden">
+          ✕
+        </button>
       </div>
 
       <nav className="mt-10 flex flex-1 flex-col gap-1">
@@ -37,12 +48,11 @@ export const Sidebar = () => {
           <NavLink
             key={item.path}
             to={item.path}
-            end={item.path === '.'}
+            end={item.path === "."}
+            onClick={onMobileClose}
             className={({ isActive }) =>
               `flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-coral-light text-coral-dark'
-                  : 'text-ink/60 hover:bg-cream hover:text-ink'
+                isActive ? 'bg-coral-light text-coral-dark' : 'text-ink/60 hover:bg-cream hover:text-ink'
               }`
             }
           >
@@ -80,6 +90,25 @@ export const Sidebar = () => {
           Log out
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop — always visible, normal document flow */}
+      <aside className="hidden h-screen w-64 shrink-0 flex-col bg-white px-4 py-6 lg:flex">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile — overlay + slide-in drawer, only in the DOM's visual sense when open */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="absolute inset-0 bg-ink/40" onClick={onMobileClose} />
+          <aside className="absolute inset-y-0 left-0 flex w-72 flex-col bg-white px-4 py-6 shadow-xl">
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 };

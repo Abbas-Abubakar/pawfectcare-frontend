@@ -4,6 +4,7 @@ import { vetApi } from '@/api/vet.api';
 import { availabilityApi } from '@/api/availability.api';
 import { createListQuery } from './useCreateListQuery';
 import type { VetsResponse } from '@/types/appointment';
+import { isSlotInPast } from '@/utils/slotTime';
 
 export const VETS_QUERY_KEY = ['vets'] as const;
 export const SLOTS_QUERY_KEY = (vetId: string) => ['availability', vetId] as const;
@@ -11,11 +12,17 @@ export const APPOINTMENTS_QUERY_KEY = ['appointments'] as const;
 
 export const useVets = createListQuery<void, VetsResponse>(VETS_QUERY_KEY, vetApi.list);
 
-export const useOpenSlots = createListQuery(
-  ['availability'],
-  (vetId: string) => availabilityApi.getOpenSlots(vetId),
-  (vetId) => ({ enabled: !!vetId })
-);
+export const useOpenSlots = (vetId: string) => {
+  return useQuery({
+    queryKey: SLOTS_QUERY_KEY(vetId),
+    queryFn: () => availabilityApi.getOpenSlots(vetId),
+    enabled: !!vetId,
+    select: (data) => ({
+      ...data,
+      slots: data.slots.filter((slot) => !isSlotInPast(slot)),
+    }),
+  });
+};
 
 export const useMyAppointments = createListQuery(APPOINTMENTS_QUERY_KEY, appointmentApi.getMyAppointments);
 
