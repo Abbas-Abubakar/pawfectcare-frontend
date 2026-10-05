@@ -38,6 +38,9 @@ import { VetAppointmentsPage } from './pages/vet/VetAppointmentPage';
 import { ListingDetail } from './pages/shelter/ListingDettail';
 import { AddEditListing } from './pages/shelter/AddEditListing';
 import { ListingsList } from './pages/shelter/ListingsList';
+import { SuccessStoriesList } from './pages/shelter/SuccessStoriesList';
+import { AddSuccessStory } from './pages/shelter/AddSuccessStory';
+import { MessagesPage } from './pages/shelter/MessagesPage';
 
 
 const queryClient = new QueryClient({
@@ -183,6 +186,9 @@ const router = createBrowserRouter(
           <Route path="listings/new" element={<AddEditListing />} />
           <Route path="listings/:id/edit" element={<AddEditListing />} />
           <Route path="listings/:id" element={<ListingDetail />} />
+          <Route path="stories" element={<SuccessStoriesList />} />
+          <Route path="stories/new" element={<AddSuccessStory />} />
+          <Route path="messages" element={<MessagesPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>

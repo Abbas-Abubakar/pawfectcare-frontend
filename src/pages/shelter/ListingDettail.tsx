@@ -167,6 +167,15 @@ export const ListingDetail = () => {
                     </span>
                   </div>
                   {request.reviewNote && <p className="mt-2 text-sm italic text-ink/40">{request.reviewNote}</p>}
+
+                  {request.status === 'approved' && (
+                    <Link
+                      to={`/shelter/stories/new?adoptionRequestId=${request._id}&petName=${encodeURIComponent(listing.name)}`}
+                      className="mt-3 inline-block text-sm font-semibold text-coral hover:text-coral-dark"
+                    >
+                      📝 Write a success story
+                    </Link>
+                  )}
                 </div>
               ))}
             </>
