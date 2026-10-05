@@ -30,7 +30,7 @@ export const SuccessStoriesList = () => {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {stories.map((story) => (
               <div key={story._id} className="overflow-hidden rounded-4xl bg-white">
-                <div className="aspect-[4/3] w-full overflow-hidden bg-peach">
+                <div className="aspect-\[4\/3] w-full overflow-hidden bg-peach">
                   {story.photos[0]?.url ? (
                     <img src={story.photos[0].url} alt={story.petName} className="h-full w-full object-cover" />
                   ) : (

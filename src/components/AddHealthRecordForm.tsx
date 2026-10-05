@@ -1,21 +1,31 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useCreateHealthRecord } from '@/hooks/useHealthRecords';
-import type { HealthRecordFormValues, HealthRecordType, Severity } from '@/types/healthRecord';
+import { useCreateHealthRecord, useUpdateHealthRecord } from '@/hooks/useHealthRecords';
+import type { HealthRecordFormValues, HealthRecordType, Severity, HealthRecord } from '@/types/healthRecord';
 
-const EMPTY_VALUES: HealthRecordFormValues = {
-  type: 'vaccination',
-  title: '',
-  description: '',
-  dateAdministered: '',
-  nextDueDate: '',
-  severity: '',
-};
+const toFormValues = (record?: HealthRecord): HealthRecordFormValues => ({
+  type: record?.type ?? 'vaccination',
+  title: record?.title ?? '',
+  description: record?.description ?? '',
+  dateAdministered: record?.dateAdministered?.slice(0, 10) ?? '',
+  nextDueDate: record?.nextDueDate?.slice(0, 10) ?? '',
+  severity: record?.severity ?? '',
+});
 
-export const AddHealthRecordForm = ({ petId, onSuccess }: { petId: string; onSuccess: () => void }) => {
-  const [values, setValues] = useState<HealthRecordFormValues>(EMPTY_VALUES);
+interface AddHealthRecordFormProps {
+  petId: string;
+  existingRecord?: HealthRecord;
+  onSuccess: () => void;
+}
+
+export const AddHealthRecordForm = ({ petId, existingRecord, onSuccess }: AddHealthRecordFormProps) => {
+  const isEditMode = !!existingRecord;
+  const [values, setValues] = useState<HealthRecordFormValues>(toFormValues(existingRecord));
   const [error, setError] = useState('');
-  const mutation = useCreateHealthRecord(petId);
+
+  const createMutation = useCreateHealthRecord(petId);
+  const updateMutation = useUpdateHealthRecord(petId, existingRecord?._id ?? '');
+  const mutation = isEditMode ? updateMutation : createMutation;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,11 +39,9 @@ export const AddHealthRecordForm = ({ petId, onSuccess }: { petId: string; onSuc
     mutation.mutate(values, {
       onSuccess: () => onSuccess(),
       onError: (err) => {
-        if (axios.isAxiosError(err)) {
-          setError(err.response?.data?.message || 'Something went wrong.');
-        } else {
-          setError('Something went wrong.');
-        }
+        setError(
+          axios.isAxiosError(err) ? err.response?.data?.message || 'Something went wrong.' : 'Something went wrong.'
+        );
       },
     });
   };
@@ -135,7 +143,7 @@ export const AddHealthRecordForm = ({ petId, onSuccess }: { petId: string; onSuc
       {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>}
 
       <button type="submit" disabled={mutation.isPending} className="btn-primary w-full">
-        {mutation.isPending ? 'Adding...' : 'Add record'}
+        {mutation.isPending ? 'Saving...' : isEditMode ? 'Save changes' : 'Add record'}
       </button>
     </form>
   );

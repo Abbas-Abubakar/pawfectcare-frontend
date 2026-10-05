@@ -50,7 +50,7 @@ export const AdoptionListingDetail = () => {
       </button>
 
       {listing.photos.length > 0 && (
-        <div className="mt-4 aspect-[16/10] w-full overflow-hidden rounded-4xl bg-peach">
+        <div className="mt-4 aspect-\[16\/10] w-full overflow-hidden rounded-4xl bg-peach">
           <img src={listing.photos[0].url} alt={listing.name} className="h-full w-full object-cover" />
         </div>
       )}

@@ -22,3 +22,23 @@ export const useCreateHealthRecord = (petId: string) => {
     },
   });
 };
+
+export const useUpdateHealthRecord = (petId: string, recordId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (values: HealthRecordFormValues) => healthRecordApi.update(petId, recordId, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: HEALTH_RECORDS_QUERY_KEY(petId) });
+    },
+  });
+};
+
+export const useDeleteHealthRecord = (petId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (recordId: string) => healthRecordApi.remove(petId, recordId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: HEALTH_RECORDS_QUERY_KEY(petId) });
+    },
+  });
+};

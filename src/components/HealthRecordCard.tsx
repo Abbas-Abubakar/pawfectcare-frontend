@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import type { HealthRecord } from '@/types/healthRecord';
+import { useDeleteHealthRecord } from '@/hooks/useHealthRecords';
 
 const TYPE_LABELS: Record<HealthRecord['type'], { label: string; emoji: string }> = {
   vaccination: { label: 'Vaccination', emoji: '💉' },
@@ -16,14 +18,18 @@ const SEVERITY_STYLES: Record<string, string> = {
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return null;
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
-export const HealthRecordCard = ({ record }: { record: HealthRecord }) => {
+interface HealthRecordCardProps {
+  record: HealthRecord;
+  petId: string;
+  onEdit: (record: HealthRecord) => void;
+}
+
+export const HealthRecordCard = ({ record, petId, onEdit }: HealthRecordCardProps) => {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const deleteMutation = useDeleteHealthRecord(petId);
   const typeInfo = TYPE_LABELS[record.type];
 
   return (
@@ -49,6 +55,34 @@ export const HealthRecordCard = ({ record }: { record: HealthRecord }) => {
         {record.dateAdministered && <span>Given: {formatDate(record.dateAdministered)}</span>}
         {record.nextDueDate && <span>Next due: {formatDate(record.nextDueDate)}</span>}
         <span>Added by {record.addedBy.name}</span>
+      </div>
+
+      <div className="mt-3 flex items-center gap-4">
+        <button onClick={() => onEdit(record)} className="text-xs font-semibold text-coral hover:text-coral-dark">
+          Edit
+        </button>
+        {showDeleteConfirm ? (
+          <span className="flex items-center gap-2 text-xs">
+            <span className="text-ink/60">Delete this record?</span>
+            <button
+              onClick={() => deleteMutation.mutate(record._id)}
+              disabled={deleteMutation.isPending}
+              className="font-semibold text-red-600"
+            >
+              Yes
+            </button>
+            <button onClick={() => setShowDeleteConfirm(false)} className="font-semibold text-ink/50">
+              No
+            </button>
+          </span>
+        ) : (
+          <button
+            onClick={() => setShowDeleteConfirm(true)}
+            className="text-xs font-semibold text-ink/40 hover:text-red-500"
+          >
+            Delete
+          </button>
+        )}
       </div>
     </div>
   );

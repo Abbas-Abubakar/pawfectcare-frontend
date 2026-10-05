@@ -6,9 +6,10 @@ import { Tabs } from '@/components/Tabs';
 import { Modal } from '@/components/Modal';
 import { HealthRecordCard } from '@/components/HealthRecordCard';
 import { AddHealthRecordForm } from '@/components/AddHealthRecordForm';
+import type { HealthRecord } from '@/types/healthRecord';
 
-const formatAge = (years: number | null): string => {
-  if (years === null || years < 0) return 'Age unknown';
+const formatAge = (years: number | undefined): string => {
+  if (years === undefined || years < 0) return 'Age unknown';
   if (years < 1) return 'Under 1 year';
   return `${years} ${years === 1 ? 'year' : 'years'} old`;
 };
@@ -17,10 +18,27 @@ export const PetDetail = () => {
   const { id } = useParams<{ id: string }>();
 
   const [isAddRecordOpen, setIsAddRecordOpen] = useState(false);
+  const [editingRecord, setEditingRecord] = useState<HealthRecord | null>(null);
+
 
   const { data: petData, isLoading: petLoading } = usePet(id!);
+
   const { data: recordsData, isLoading: recordsLoading } = useHealthRecords(id!);
 
+  const openAddModal = () => {
+    setEditingRecord(null);
+    setIsAddRecordOpen(true);
+  };
+
+  const openEditModal = (record: HealthRecord) => {
+    setEditingRecord(record);
+    setIsAddRecordOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsAddRecordOpen(false);
+    setEditingRecord(null);
+  };
   if (petLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -103,7 +121,7 @@ export const PetDetail = () => {
               <h3 className="font-semibold text-ink">
                 {recordsData?.count ?? 0} {recordsData?.count === 1 ? 'record' : 'records'}
               </h3>
-              <button onClick={() => setIsAddRecordOpen(true)} className="btn-secondary text-sm">
+              <button onClick={openAddModal} className="btn-secondary text-sm">
                 + Add record
               </button>
             </div>
@@ -113,7 +131,7 @@ export const PetDetail = () => {
             ) : recordsData && recordsData.records.length > 0 ? (
               <div className="mt-5 space-y-3">
                 {recordsData.records.map((record) => (
-                  <HealthRecordCard key={record._id} record={record} />
+                  <HealthRecordCard key={record._id} record={record} petId={pet._id} onEdit={openEditModal} />
                 ))}
               </div>
             ) : (
@@ -126,8 +144,16 @@ export const PetDetail = () => {
         </Tabs>
       </div>
 
-      <Modal isOpen={isAddRecordOpen} onClose={() => setIsAddRecordOpen(false)} title="Add health record">
-        <AddHealthRecordForm petId={pet._id} onSuccess={() => setIsAddRecordOpen(false)} />
+      <Modal
+        isOpen={isAddRecordOpen}
+        onClose={closeModal}
+        title={editingRecord ? 'Edit health record' : 'Add health record'}
+      >
+        <AddHealthRecordForm
+          petId={pet._id}
+          existingRecord={editingRecord ?? undefined}
+          onSuccess={closeModal}
+        />
       </Modal>
     </div>
   );
