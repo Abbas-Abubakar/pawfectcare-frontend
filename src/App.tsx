@@ -35,6 +35,9 @@ import { VetPatients } from './pages/vet/VetPatients';
 import { VetDashboard } from './pages/vet/VetDashboard';
 import { VetAvailabilityPage } from './pages/VetAvailabilityPage';
 import { VetAppointmentsPage } from './pages/vet/VetAppointmentPage';
+import { ListingDetail } from './pages/shelter/ListingDettail';
+import { AddEditListing } from './pages/shelter/AddEditListing';
+import { ListingsList } from './pages/shelter/ListingsList';
 
 
 const queryClient = new QueryClient({
@@ -173,20 +176,27 @@ const router = createBrowserRouter(
         </Route>
       </Route>
 
-        {/* Shelter Admin section — guarded to shelter_admin role only */}
-        <Route element={<ProtectedRoute allowedRoles={['shelter_admin']} />}>
-          <Route path="shelter/dashboard" element={<DashboardPlaceholder label="Shelter Dashboard" />} />
+      {/* Shelter Admin section — guarded to shelter_admin role only */}
+      <Route element={<ProtectedRoute allowedRoles={['shelter_admin']} />}>
+        <Route path="shelter" element={<DashboardLayout />}>
+          <Route index element={<ListingsList />} />
+          <Route path="listings/new" element={<AddEditListing />} />
+          <Route path="listings/:id/edit" element={<AddEditListing />} />
+          <Route path="listings/:id" element={<ListingDetail />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Route>
-      )
-      );
+    </Route>
+  )
+);
 
-      function App() {
+function App() {
   return (
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-      );
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
-      export default App;
+export default App;
