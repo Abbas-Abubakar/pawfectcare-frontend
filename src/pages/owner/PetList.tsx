@@ -26,7 +26,7 @@ export const PetsList = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-col gap-4 sm:flex-row">
         <div>
           <h1 className="text-3xl font-bold text-ink">My Pets</h1>
           <p className="mt-1 text-ink/60">Everyone you're taking care of, in one place.</p>

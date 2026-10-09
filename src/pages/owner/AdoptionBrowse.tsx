@@ -16,12 +16,12 @@ export const AdoptionBrowse = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex sm:items-center justify-between flex-col gap-4 sm:flex-row">
         <div>
           <h1 className="text-3xl font-bold text-ink">Adopt a Pet</h1>
           <p className="mt-1 text-ink/60">Pets from local shelters looking for a home.</p>
         </div>
-        <Link to="/owner/adopt/my-requests" className="btn-secondary text-sm">
+        <Link to="/owner/adopt/my-requests" className="btn-secondary text-sm sm:inset-auto">
           My requests
         </Link>
       </div>

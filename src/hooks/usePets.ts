@@ -1,12 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { petApi } from '@/api/pet.api';
 import type { PetFormValues } from '@/types/pet';
-import { createListQuery } from './useCreateListQuery';
 
 export const PETS_QUERY_KEY = ['pets'] as const;
 export const PET_QUERY_KEY = (id: string) => ['pets', id] as const;
 
-export const usePets = createListQuery(PETS_QUERY_KEY, (page: number = 1) => petApi.getMyPets(page));
+export const usePets = (page:number = 1) => {
+  return useQuery({
+    queryKey: [...PETS_QUERY_KEY, page],
+    queryFn: () => petApi.getMyPets(page),
+  });
+};
 
 export const usePet = (id: string) => {
   return useQuery({
@@ -22,8 +26,6 @@ export const useCreatePet = () => {
   return useMutation({
     mutationFn: (values: PetFormValues) => petApi.createPet(values),
     onSuccess: () => {
-      // Pets list is now stale — refetch it so the new pet appears
-      // without the user needing to manually refresh the page.
       queryClient.invalidateQueries({ queryKey: PETS_QUERY_KEY });
     },
   });

@@ -31,7 +31,7 @@ export const DashboardLayout = () => {
 
       <Sidebar isMobileOpen={isMobileSidebarOpen} onMobileClose={() => setIsMobileSidebarOpen(false)} />
 
-      <main className="w-full flex-1 overflow-y-auto px-4 py-6 pt-20 lg:px-8 lg:py-8 lg:pt-8">
+      <main className="w-full min-w-0 flex-1 overflow-y-auto px-4 py-6 pt-20 lg:px-8 lg:py-8 lg:pt-8">
         <Outlet />
       </main>
     </div>

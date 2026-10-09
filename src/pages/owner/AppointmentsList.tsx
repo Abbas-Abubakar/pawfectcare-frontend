@@ -23,17 +23,17 @@ export const AppointmentsList = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-col gap-4 sm:flex-row">
         <div>
           <h1 className="text-3xl font-bold text-ink">Appointments</h1>
           <p className="mt-1 text-ink/60">Keep track of upcoming and past vet visits.</p>
         </div>
-        <Link to="/owner/appointments/new" className="btn-primary">
+        <Link to="/owner/appointments/new" className="btn-primary text-xs sm:text-base">
           + Book appointment
         </Link>
       </div>
 
-      <div className="mt-6 flex gap-2">
+      <div className="mt-6 flex gap-2 overflow-x-auto shadow-[inset_0_-2px_0_0_rgb(58_46_38/0.05)] [scrollbar:none] [&::-webkit-scrollbar]:hidden">
         {FILTERS.map((f) => (
           <button
             key={f.value}

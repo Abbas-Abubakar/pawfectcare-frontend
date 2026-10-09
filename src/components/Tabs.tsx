@@ -26,7 +26,9 @@ const TabsRoot = ({ defaultTab, children }: TabsProps) => {
 };
 
 const TabsList = ({ children }: { children: ReactNode }) => (
-  <div className="flex gap-2 border-b-2 border-ink/5">{children}</div>
+  <div className="flex gap-2 overflow-x-auto shadow-[inset_0_-2px_0_0_rgb(58_46_38/0.05)] [scrollbar:none] [&::-webkit-scrollbar]:hidden">
+    {children}
+  </div>
 );
 
 const TabsTab = ({ id, children }: { id: string; children: ReactNode }) => {
@@ -34,10 +36,10 @@ const TabsTab = ({ id, children }: { id: string; children: ReactNode }) => {
   const isActive = activeTab === id;
 
   return (
-    <button
+     <button
       type="button"
       onClick={() => setActiveTab(id)}
-      className={`-mb-0.5 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
+      className={`shrink-0 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
         isActive ? 'border-coral text-coral' : 'border-transparent text-ink/50 hover:text-ink'
       }`}
     >
