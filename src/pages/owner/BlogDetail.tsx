@@ -40,7 +40,7 @@ export const BlogDetail = () => {
       </button>
 
       {post.coverImage?.url && (
-        <div className="mt-4 aspect-[16/9] w-full overflow-hidden rounded-4xl bg-peach">
+        <div className="mt-4 aspect-\[16\/9] w-full overflow-hidden rounded-4xl bg-peach">
           <img src={post.coverImage.url} alt={post.title} className="h-full w-full object-cover" />
         </div>
       )}

@@ -1,17 +1,39 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { usePet } from '@/hooks/usePets';
 import { useHealthRecords } from '@/hooks/useHealthRecords';
 import { usePetMedicalHistory } from '@/hooks/useMedicalRecords';
 import { Tabs } from '@/components/Tabs';
+import { Modal } from '@/components/Modal';
 import { HealthRecordCard } from '@/components/HealthRecordCard';
 import { MedicalRecordCard } from '@/components/MedicalRecordCard';
+import { AddHealthRecordForm } from '@/components/AddHealthRecordForm';
+import type { HealthRecord } from '@/types/healthRecord';
 
 export const VetPatientDetail = () => {
   const { id } = useParams<{ id: string }>();
 
+  const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
+  const [editingRecord, setEditingRecord] = useState<HealthRecord | null>(null);
+
   const { data: petData, isLoading: petLoading } = usePet(id!);
   const { data: recordsData } = useHealthRecords(id!);
   const { data: historyData } = usePetMedicalHistory(id!);
+
+  const openAddModal = () => {
+    setEditingRecord(null);
+    setIsRecordModalOpen(true);
+  };
+
+  const openEditModal = (record: HealthRecord) => {
+    setEditingRecord(record);
+    setIsRecordModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsRecordModalOpen(false);
+    setEditingRecord(null);
+  };
 
   if (petLoading) {
     return (
@@ -50,9 +72,20 @@ export const VetPatientDetail = () => {
           </Tabs.List>
 
           <Tabs.Panel id="health">
-            <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-ink">
+                {recordsData?.count ?? 0} {recordsData?.count === 1 ? 'record' : 'records'}
+              </h3>
+              <button onClick={openAddModal} className="btn-secondary text-sm">
+                + Add record
+              </button>
+            </div>
+
+            <div className="mt-4 space-y-3">
               {recordsData && recordsData.records.length > 0 ? (
-                recordsData.records.map((record) => <HealthRecordCard key={record._id} record={record} />)
+                recordsData.records.map((record) => (
+                  <HealthRecordCard key={record._id} record={record} petId={pet._id} onEdit={openEditModal} />
+                ))
               ) : (
                 <p className="text-ink/50">No health records logged yet.</p>
               )}
@@ -70,6 +103,19 @@ export const VetPatientDetail = () => {
           </Tabs.Panel>
         </Tabs>
       </div>
+
+      <Modal
+        isOpen={isRecordModalOpen}
+        onClose={closeModal}
+        title={editingRecord ? 'Edit health record' : 'Add health record'}
+      >
+        <AddHealthRecordForm
+          key={editingRecord?._id ?? 'new'}
+          petId={pet._id}
+          existingRecord={editingRecord ?? undefined}
+          onSuccess={closeModal}
+        />
+      </Modal>
     </div>
   );
 };

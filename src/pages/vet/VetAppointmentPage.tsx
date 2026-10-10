@@ -6,6 +6,7 @@ import { Modal } from '@/components/Modal';
 import { AddMedicalRecordForm } from '@/components/AddMedicalRecordForm';
 import type { VetAppointment } from '@/types/vetAppointment';
 import type { AppointmentStatus } from '@/types/appointment';
+import { PageLoader } from '@/components/PageLoader';
 
 const FILTERS: { label: string; value: AppointmentStatus | 'all' }[] = [
   { label: 'All', value: 'all' },
@@ -48,7 +49,7 @@ export const VetAppointmentsPage = () => {
 
       <div className="mt-6 space-y-4">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : appointments.length > 0 ? (
           appointments.map((appointment) => (
             <VetAppointmentCard

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useMyAdoptionRequests, useWithdrawAdoptionRequest } from '@/hooks/useAdoptionBrowse';
+import { PageLoader } from '@/components/PageLoader';
 
 const STATUS_STYLES: Record<string, string> = {
   pending: 'bg-sunshine/30 text-ink',
@@ -24,7 +25,7 @@ export const MyAdoptionRequests = () => {
 
       <div className="mt-8 space-y-3">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : requests.length > 0 ? (
           requests.map((request) => (
             <div key={request._id} className="rounded-3xl border-2 border-ink/5 p-5">

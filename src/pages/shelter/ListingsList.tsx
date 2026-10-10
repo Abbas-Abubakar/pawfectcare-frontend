@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useMyListings } from '@/hooks/useAdoptionListings';
 import { ListingCard } from '@/components/ListingCard';
+import { PageLoader } from '@/components/PageLoader';
 
 export const ListingsList = () => {
   const { data, isLoading } = useMyListings();
@@ -20,7 +21,7 @@ export const ListingsList = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : listings.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => (

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import type { Pet } from '@/types/pet';
 
-const formatAge = (years: number | null): string => {
-  if (years === null || years < 0) return 'Age unknown';
+const formatAge = (years: number | undefined): string => {
+  if (years === null || years === undefined || years < 0) return 'Age unknown';
   if (years < 1) return 'Under 1 year';
   return `${years} ${years === 1 ? 'year' : 'years'} old`;
 };

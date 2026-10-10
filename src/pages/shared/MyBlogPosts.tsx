@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { useMyBlogPosts, useDeleteBlogPost } from '@/hooks/useBlog';
+import { PageLoader } from '@/components/PageLoader';
 
 export const MyBlogPosts = () => {
   const user = useAuthStore((state) => state.user);
@@ -25,7 +26,8 @@ export const MyBlogPosts = () => {
 
       <div className="mt-8 space-y-3">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
+
         ) : posts.length > 0 ? (
           posts.map((post) => (
             <div key={post._id} className="flex items-center justify-between rounded-3xl border-2 border-ink/5 p-5">

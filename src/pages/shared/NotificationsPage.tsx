@@ -1,5 +1,6 @@
 import { useNotifications, useMarkAsRead, useMarkAllAsRead, useDeleteNotification } from '@/hooks/useNotifications';
 import { NotificationItem } from '@/components/NotificationItem';
+import { PageLoader } from '@/components/PageLoader';
 
 export const NotificationsPage = () => {
   const { data, isLoading } = useNotifications();
@@ -32,7 +33,7 @@ export const NotificationsPage = () => {
 
       <div className="mt-6 space-y-2">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : notifications.length > 0 ? (
           notifications.map((notification) => (
             <NotificationItem

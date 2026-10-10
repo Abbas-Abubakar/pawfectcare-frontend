@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useWishlist, useToggleWishlist } from '@/hooks/useWishlist';
 import { ProductCard } from '@/components/ProductCard';
+import { PageLoader } from '@/components/PageLoader';
 
 export const WishlistPage = () => {
   const { data, isLoading } = useWishlist();
@@ -15,7 +16,8 @@ export const WishlistPage = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
+
         ) : products.length > 0 ? (
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {products.map((product) => (

@@ -4,6 +4,7 @@ import { VetAppointmentCard } from '@/components/VetAppointmentCard';
 import { Modal } from '@/components/Modal';
 import { AddMedicalRecordForm } from '@/components/AddMedicalRecordForm';
 import type { VetAppointment } from '@/types/vetAppointment';
+import { PageLoader } from '@/components/PageLoader';
 
 export const VetDashboard = () => {
   const { data, isLoading } = useTodayAppointments();
@@ -25,7 +26,7 @@ export const VetDashboard = () => {
 
       <div className="mt-8 space-y-4">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : appointments.length > 0 ? (
           appointments.map((appointment) => (
             <VetAppointmentCard

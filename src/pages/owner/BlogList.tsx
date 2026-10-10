@@ -3,6 +3,7 @@ import { useBlogPosts } from '@/hooks/useBlog';
 import { useBookmarks, useToggleBookmark } from '@/hooks/useBookmarks';
 import { BlogCard } from '@/components/BlogCard';
 import type { BlogCategory } from '@/types/blog';
+import { PageLoader } from '@/components/PageLoader';
 
 const CATEGORIES: { label: string; value: BlogCategory | 'all' }[] = [
   { label: 'All', value: 'all' },
@@ -59,7 +60,7 @@ export const BlogList = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading articles...</p>
+          <PageLoader/>
         ) : data && data.posts.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {data.posts.map((post) => (

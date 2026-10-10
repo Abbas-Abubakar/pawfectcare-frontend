@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useContactMessages, useUpdateMessageStatus } from '@/hooks/useContactMessages';
 import type { ContactMessageType, ContactMessageStatus } from '@/types/contact';
+import { PageLoader } from '@/components/PageLoader';
 
 const STATUS_STYLES: Record<ContactMessageStatus, string> = {
   new: 'bg-coral-light text-coral-dark',
@@ -58,7 +59,7 @@ export const MessagesPage = () => {
 
       <div className="mt-6 space-y-3">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : messages.length > 0 ? (
           messages.map((msg) => (
             <div key={msg._id} className="rounded-3xl border-2 border-ink/5 p-5">

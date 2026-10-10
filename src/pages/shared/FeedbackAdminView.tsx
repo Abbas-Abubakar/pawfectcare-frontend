@@ -1,5 +1,6 @@
 import { useAllFeedback } from '@/hooks/useFeedback';
 import { StarRating } from '@/components/StarRating';
+import { PageLoader } from '@/components/PageLoader';
 
 export const FeedbackAdminView = () => {
   const { data, isLoading } = useAllFeedback();
@@ -23,7 +24,7 @@ export const FeedbackAdminView = () => {
 
       <div className="mt-8 space-y-3">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : feedback.length > 0 ? (
           feedback.map((item) => (
             <div key={item._id} className="rounded-3xl border-2 border-ink/5 p-5">

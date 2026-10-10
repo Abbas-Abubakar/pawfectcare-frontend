@@ -1,6 +1,7 @@
 import { useState, useDeferredValue } from 'react';
 import { Link } from 'react-router-dom';
 import { useAdoptionBrowse } from '@/hooks/useAdoptionBrowse';
+import { PageLoader } from '@/components/PageLoader';
 
 export const AdoptionBrowse = () => {
   const [search, setSearch] = useState('');
@@ -45,7 +46,7 @@ export const AdoptionBrowse = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : listings.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => (

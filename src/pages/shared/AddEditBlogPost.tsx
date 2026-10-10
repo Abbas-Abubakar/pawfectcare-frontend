@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useBlogPost } from '@/hooks/useBlog';
 import { BlogPostForm } from '@/components/BlogPostForm';
+import { PageLoader } from '@/components/PageLoader';
 
 export const AddEditBlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,7 +11,7 @@ export const AddEditBlogPost = () => {
   if (isEditMode && isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <p className="font-display text-xl text-ink/40">Loading...</p>
+        <PageLoader/>
       </div>
     );
   }

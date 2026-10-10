@@ -1,5 +1,6 @@
 import { useState, useDeferredValue } from 'react';
 import { useSuccessStories, useDeleteSuccessStory } from '@/hooks/useSuccessStories';
+import { PageLoader } from '@/components/PageLoader';
 
 export const SuccessStoriesList = () => {
   const [search, setSearch] = useState('');
@@ -25,7 +26,7 @@ export const SuccessStoriesList = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : stories.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {stories.map((story) => (

@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useListing } from '@/hooks/useAdoptionListings';
 import { useCreateAdoptionRequest } from '@/hooks/useAdoptionBrowse';
 
 export const AdoptionListingDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
 
   const { data, isLoading } = useListing(id!);
   const createRequest = useCreateAdoptionRequest();
@@ -26,7 +25,7 @@ export const AdoptionListingDetail = () => {
   const listing = data?.listing;
   if (!listing) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     setError('');
 
@@ -45,9 +44,9 @@ export const AdoptionListingDetail = () => {
 
   return (
     <div className="max-w-2xl">
-      <button onClick={() => navigate('/owner/adopt')} className="text-sm font-semibold text-ink/50 hover:text-ink">
+      <Link to=".." className="text-sm font-semibold text-ink/50 hover:text-ink">
         ← Back to Adopt a Pet
-      </button>
+      </Link>
 
       {listing.photos.length > 0 && (
         <div className="mt-4 aspect-\[16\/10] w-full overflow-hidden rounded-4xl bg-peach">

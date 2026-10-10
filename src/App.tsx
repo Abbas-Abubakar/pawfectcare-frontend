@@ -48,6 +48,15 @@ import { AddEditBlogPost } from './pages/shared/AddEditBlogPost';
 import { MyBlogPosts } from './pages/shared/MyBlogPosts';
 import { FeedbackPage } from './pages/shared/FeedbackPage';
 import { FeedbackAdminView } from './pages/shared/FeedbackAdminView';
+import { PublicLayout } from './layouts/PublicLayout';
+import { ContactUs } from './pages/public/ContactUs';
+import { PublicAdoptions } from './pages/public/PublicAdoptions';
+import { PublicAdoptionDetail } from './pages/public/PublicAdoptionDetail';
+import { PublicBlog } from './pages/public/PublicBlog';
+import { PublicBlogPost } from './pages/public/PublicBlogPost';
+import { PublicStore } from './pages/public/PublicStore';
+import { PublicStories } from './pages/public/PublicStories';
+import { Home } from './pages/public/Home';
 
 
 const queryClient = new QueryClient({
@@ -81,33 +90,42 @@ function RootLayout() {
   return <Outlet />;
 }
 
-function DashboardPlaceholder({ label }: { label: string }) {
-  const logout = useAuthStore((state) => state.logout);
-  const user = useAuthStore((state) => state.user);
+// function DashboardPlaceholder({ label }: { label: string }) {
+//   const logout = useAuthStore((state) => state.logout);
+//   const user = useAuthStore((state) => state.user);
 
-  const handleLogout = async () => {
-    await authApi.logout();
-    logout();
-    window.location.href = '/auth/login';
-  };
+//   const handleLogout = async () => {
+//     await authApi.logout();
+//     logout();
+//     window.location.href = '/auth/login';
+//   };
 
-  return (
-    <div className="p-8">
-      <p className="text-ink/60">
-        Logged in as {user?.name} ({user?.role})
-      </p>
-      <h1 className="mt-2 text-2xl font-bold">{label} — coming soon</h1>
-      <button onClick={handleLogout} className="btn-secondary mt-4">
-        Log out
-      </button>
-    </div>
-  );
-}
+//   return (
+//     <div className="p-8">
+//       <p className="text-ink/60">
+//         Logged in as {user?.name} ({user?.role})
+//       </p>
+//       <h1 className="mt-2 text-2xl font-bold">{label} — coming soon</h1>
+//       <button onClick={handleLogout} className="btn-secondary mt-4">
+//         Log out
+//       </button>
+//     </div>
+//   );
+// }
 
 const router = createBrowserRouter(
   createRoutesFromChildren(
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<div className="p-8">PawfectCare — coming soon</div>} />
+      <Route element={<PublicLayout />}>
+        <Route index element={<Home/>} />
+        <Route path="contact" element={<ContactUs />} />
+        <Route path="adopt" element={<PublicAdoptions />} />
+        <Route path="adopt/:id" element={<PublicAdoptionDetail />} />
+        <Route path="blog" element={<PublicBlog />} />
+        <Route path="blog/:id" element={<PublicBlogPost />} />
+        <Route path="store" element={<PublicStore />} />
+        <Route path="success-stories" element={<PublicStories />} />
+      </Route>
 
       <Route path="auth" element={<AuthLayout />}>
         <Route

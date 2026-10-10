@@ -3,6 +3,7 @@ import { useProducts } from '@/hooks/useProducts';
 import { useWishlist, useToggleWishlist } from '@/hooks/useWishlist';
 import { ProductCard } from '@/components/ProductCard';
 import type { ProductCategory } from '@/types/product';
+import { PageLoader } from '@/components/PageLoader';
 
 const CATEGORIES: { label: string; value: ProductCategory | 'all' }[] = [
   { label: 'All', value: 'all' },
@@ -60,7 +61,7 @@ export const PetStore = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading products...</p>
+          <PageLoader/>
         ) : data && data.products.length > 0 ? (
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {data.products.map((product) => (

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useBookmarks, useToggleBookmark } from '@/hooks/useBookmarks';
 import { BlogCard } from '@/components/BlogCard';
+import { PageLoader } from '@/components/PageLoader';
 
 export const BookmarksPage = () => {
   const { data, isLoading } = useBookmarks();
@@ -15,7 +16,7 @@ export const BookmarksPage = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : posts.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (

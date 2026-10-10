@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAssignedPets } from '@/hooks/useVetDashboard';
+import { PageLoader } from '@/components/PageLoader';
 
 export const VetPatients = () => {
   const { data, isLoading } = useAssignedPets();
@@ -12,7 +13,7 @@ export const VetPatients = () => {
 
       <div className="mt-8">
         {isLoading ? (
-          <p className="text-ink/50">Loading...</p>
+          <PageLoader/>
         ) : pets.length > 0 ? (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {pets.map((pet) => (
