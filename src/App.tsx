@@ -8,7 +8,6 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { apiClient } from '@/api/client';
-import { authApi } from '@/api/auth.api';
 import { useAuthStore } from '@/store/authStore';
 import { AuthLayout } from '@/layouts/AuthLayout';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
@@ -198,7 +197,7 @@ const router = createBrowserRouter(
       {/* Veterinarian section — guarded to veterinarian role only */}
       <Route element={<ProtectedRoute allowedRoles={['veterinarian']} />}>
         <Route path="vet" element={<DashboardLayout />}>
-          <Route path="dashboard" element={<VetDashboard />} />
+          <Route index element={<VetDashboard />} />
           <Route path="appointments" element={<VetAppointmentsPage />} />
           <Route path="availability" element={<VetAvailabilityPage />} />
           <Route path="patients" element={<VetPatients />} />
@@ -216,7 +215,7 @@ const router = createBrowserRouter(
       {/* Shelter Admin section — guarded to shelter_admin role only */}
       <Route element={<ProtectedRoute allowedRoles={['shelter_admin']} />}>
         <Route path="shelter" element={<DashboardLayout />}>
-          <Route path="listings" element={<ListingsList />} />
+          <Route index element={<ListingsList />} />
           <Route path="listings/new" element={<AddEditListing />} />
           <Route path="listings/:id/edit" element={<AddEditListing />} />
           <Route path="listings/:id" element={<ListingDetail />} />
