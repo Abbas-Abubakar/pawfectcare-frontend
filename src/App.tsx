@@ -8,7 +8,6 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { apiClient } from '@/api/client';
-import { authApi } from '@/api/auth.api';
 import { useAuthStore } from '@/store/authStore';
 import { AuthLayout } from '@/layouts/AuthLayout';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
