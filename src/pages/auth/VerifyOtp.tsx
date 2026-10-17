@@ -6,6 +6,7 @@ import { OtpInput } from '../../components/OtpInput';
 import { authApi } from '../../api/auth.api';
 import { useAuthStore } from '../../store/authStore';
 import { getDashboardPath } from '../../utils/roleRedirect';
+import { DemoNotice } from '@/components/DemoNotice';
 
 const RESEND_COOLDOWN_SECONDS = 60;
 
@@ -82,6 +83,11 @@ export const VerifyOtp = () => {
       <p className="mt-2 text-ink/60">
         We sent a 6-digit code to <span className="font-semibold text-ink">{email}</span>
       </p>
+
+      <DemoNotice>
+        Demo site: codes go to a private sandbox, so you won't receive one.{' '}
+        <Link to="/auth/login" className="font-semibold text-coral">Log in with a demo account</Link> instead.
+      </DemoNotice>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5">
         <OtpInput value={otp} onChange={setOtp} />

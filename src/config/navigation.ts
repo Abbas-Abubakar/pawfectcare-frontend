@@ -3,7 +3,7 @@ import type { UserRole } from '@/types';
 export interface NavItem {
   label: string;
   path: string;
-  icon: string; // emoji for now — simple, on-brand, zero extra dependency
+  icon: string; 
 }
 
 export const navigationByRole: Record<UserRole, NavItem[]> = {

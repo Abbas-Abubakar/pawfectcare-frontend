@@ -157,61 +157,69 @@ export const ProfilePage = () => {
       </form>
 
       {/* Change password form */}
-      <form onSubmit={handlePasswordSubmit} className="space-y-5 border-t border-ink/10 pt-8">
-        <h2 className="font-display text-xl font-bold text-ink">Change password</h2>
-
-        <div>
-          <label htmlFor="currentPassword" className="form-label">
-            Current password
-          </label>
-          <input
-            id="currentPassword"
-            type="password"
-            required
-            className="input-field"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
+      {user.isDemo ? (
+        <div className="border-t border-ink/10 pt-8">
+          <p className="rounded-2xl bg-sunshine/20 px-4 py-3 text-sm text-ink/70">
+            You're using a shared demo account, so password changes and account deactivation are turned off.
+          </p>
         </div>
+      ) : (
+        <form onSubmit={handlePasswordSubmit} className="space-y-5 border-t border-ink/10 pt-8">
+          <h2 className="font-display text-xl font-bold text-ink">Change password</h2>
 
-        <div>
-          <label htmlFor="newPassword" className="form-label">
-            New password
-          </label>
-          <input
-            id="newPassword"
-            type="password"
-            required
-            minLength={8}
-            className="input-field"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </div>
+          <div>
+            <label htmlFor="currentPassword" className="form-label">
+              Current password
+            </label>
+            <input
+              id="currentPassword"
+              type="password"
+              required
+              className="input-field"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />
+          </div>
 
-        <div>
-          <label htmlFor="confirmPassword" className="form-label">
-            Confirm new password
-          </label>
-          <input
-            id="confirmPassword"
-            type="password"
-            required
-            className="input-field"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
+          <div>
+            <label htmlFor="newPassword" className="form-label">
+              New password
+            </label>
+            <input
+              id="newPassword"
+              type="password"
+              required
+              minLength={8}
+              className="input-field"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </div>
 
-        {passwordError && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{passwordError}</p>}
-        {passwordSuccess && (
-          <p className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">Password changed!</p>
-        )}
+          <div>
+            <label htmlFor="confirmPassword" className="form-label">
+              Confirm new password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              required
+              className="input-field"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
 
-        <button type="submit" disabled={changePassword.isPending} className="btn-primary">
-          {changePassword.isPending ? 'Updating...' : 'Update password'}
-        </button>
-      </form>
+          {passwordError && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{passwordError}</p>}
+          {passwordSuccess && (
+            <p className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">Password changed!</p>
+          )}
+
+          <button type="submit" disabled={changePassword.isPending} className="btn-primary">
+            {changePassword.isPending ? 'Updating...' : 'Update password'}
+          </button>
+        </form>
+      )}
     </div>
   );
 };

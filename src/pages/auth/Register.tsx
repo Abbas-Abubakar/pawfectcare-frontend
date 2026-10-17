@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { authApi } from '../../api/auth.api';
 import type { UserRole } from '../../types';
+import { DemoNotice } from '@/components/DemoNotice';
 
 const ROLE_OPTIONS: { value: UserRole; label: string; emoji: string }[] = [
   { value: 'pet_owner', label: 'Pet Owner', emoji: '🐾' },
@@ -58,6 +59,11 @@ export const Register = () => {
     <>
       <h1 className="text-3xl font-bold text-ink">Let's get started</h1>
       <p className="mt-2 text-ink/60">Create your account in less than a minute.</p>
+
+      <DemoNotice>
+        This is a portfolio demo, so verification emails go to a private sandbox and won't reach your
+        inbox. To explore, <Link to="/auth/login" className="font-semibold text-coral">use a demo account</Link>.
+      </DemoNotice>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5">
         <div>
@@ -128,11 +134,10 @@ export const Register = () => {
                 key={option.value}
                 type="button"
                 onClick={() => setForm({ ...form, role: option.value })}
-                className={`flex flex-col items-center gap-1 rounded-2xl border-2 px-2 py-3 text-xs font-medium transition-all ${
-                  form.role === option.value
+                className={`flex flex-col items-center gap-1 rounded-2xl border-2 px-2 py-3 text-xs font-medium transition-all ${form.role === option.value
                     ? 'border-coral bg-coral-light text-coral-dark'
                     : 'border-ink/10 bg-white text-ink/60 hover:border-ink/20'
-                }`}
+                  }`}
               >
                 <span className="text-xl">{option.emoji}</span>
                 {option.label}

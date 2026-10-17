@@ -9,6 +9,7 @@ export interface User {
   profilePhoto?: { url: string; publicId: string };
   isActive: boolean;
   isVerified: boolean;
+  isDemo?: boolean;
   createdAt: string;
 }
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { authApi } from '@/api/auth.api';
+import { DemoNotice } from '@/components/DemoNotice';
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -25,13 +26,12 @@ export const ForgotPassword = () => {
     mutation.mutate();
   };
 
-  // Once submitted successfully, show a confirmation state instead of the form.
-  // Note: our backend deliberately returns the same success message whether or
-  // not the email exists (to prevent user enumeration) — so this success view
-  // is shown unconditionally on a 200, by design, not just for "real" accounts.
   if (mutation.isSuccess) {
     return (
       <>
+        <DemoNotice>
+          Demo site: reset emails go to a private sandbox. The demo accounts don't need a password reset.
+        </DemoNotice>
         <h1 className="text-3xl font-bold text-ink">Check your inbox 📬</h1>
         <p className="mt-2 text-ink/60">
           If an account exists for <span className="font-semibold text-ink">{email}</span>, we've

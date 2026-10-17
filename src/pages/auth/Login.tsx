@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { authApi } from '../../api/auth.api';
-import { useAuthStore } from '../../store/authStore';
-import { getDashboardPath } from '../../utils/roleRedirect';
+import { authApi } from '@/api/auth.api';
+import { useAuthStore } from '@/store/authStore';
+import { getDashboardPath } from '@/utils/roleRedirect';
+import { DemoAccounts } from '@/components/DemoAccounts';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -14,20 +15,20 @@ export const Login = () => {
   const [error, setError] = useState('');
 
   const mutation = useMutation({
-    mutationFn: () => authApi.login(form.email, form.password),
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      authApi.login(email, password),
     onSuccess: (data) => {
       setUser(data.user);
       navigate(getDashboardPath(data.user.role), { replace: true });
     },
-    onError: (err) => {
+    onError: (err, variables) => {
       if (axios.isAxiosError(err)) {
         const message = err.response?.data?.message || 'Something went wrong. Please try again.';
 
-        // The backend returns this specific message when an account exists
-        // but hasn't completed OTP verification yet — redirect them there
-        // instead of just showing an error with no path forward.
+        // An existing but unverified account goes to the OTP page instead of
+        // hitting a dead-end error.
         if (message.toLowerCase().includes('verify your email')) {
-          navigate('/auth/verify-otp', { state: { email: form.email } });
+          navigate('/auth/verify-otp', { state: { email: variables.email } });
           return;
         }
 
@@ -38,10 +39,15 @@ export const Login = () => {
     },
   });
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    mutation.mutate();
+    mutation.mutate({ email: form.email, password: form.password });
+  };
+
+  const handleDemoLogin = (email: string, password: string) => {
+    setError('');
+    mutation.mutate({ email, password });
   };
 
   return (
@@ -70,7 +76,10 @@ export const Login = () => {
             <label htmlFor="password" className="form-label">
               Password
             </label>
-            <Link to="/auth/forgot-password" className="mb-1.5 text-sm font-semibold text-coral hover:text-coral-dark">
+            <Link
+              to="/auth/forgot-password"
+              className="mb-1.5 text-sm font-semibold text-coral hover:text-coral-dark"
+            >
               Forgot password?
             </Link>
           </div>
@@ -91,6 +100,8 @@ export const Login = () => {
           {mutation.isPending ? 'Logging in...' : 'Log in'}
         </button>
       </form>
+
+      <DemoAccounts onSelect={handleDemoLogin} disabled={mutation.isPending} />
 
       <p className="mt-6 text-center text-sm text-ink/60">
         New to PawfectCare?{' '}
