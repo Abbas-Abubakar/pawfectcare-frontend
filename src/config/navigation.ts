@@ -32,7 +32,7 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
   shelter_admin: [
     { label: 'Adoption Listings', path: '.', icon: '🏠' },
     { label: 'Success Stories', path: '/shelter/stories', icon: '🎉' },
-    { label: 'My Posts', path: '/vet/blog', icon: '📝' },
+    { label: 'My Posts', path: '/shelter/blog', icon: '📝' },
     { label: 'Messages', path: '/shelter/messages', icon: '✉️' },
     { label: 'User Feedback', path: '/shelter/feedback', icon: '💛' },
     { label: 'Notifications', path: '/shelter/notifications', icon: '🔔' },
