@@ -5,6 +5,7 @@ import axios from 'axios';
 import { authApi } from '../../api/auth.api';
 import type { UserRole } from '../../types';
 import { DemoNotice } from '@/components/DemoNotice';
+import { SHOW_DEMO_ACCOUNTS } from '@/config/demoAccounts';
 
 const ROLE_OPTIONS: { value: UserRole; label: string; emoji: string }[] = [
   { value: 'pet_owner', label: 'Pet Owner', emoji: '🐾' },
@@ -19,14 +20,14 @@ export const Register = () => {
     email: '',
     phone: '',
     password: '',
-    role: '' as UserRole | '',
+    role: (SHOW_DEMO_ACCOUNTS ? 'pet_owner' : '') as UserRole | '',
   });
   const [error, setError] = useState('');
 
   const mutation = useMutation({
     mutationFn: authApi.register,
     onSuccess: (data) => {
-      navigate('/auth/verify-otp', { state: { email: data.email } });
+      navigate('/auth/verify-otp', { state: { email: data.email, demoOtp: data.demoOtp } });
     },
     onError: (err) => {
       if (axios.isAxiosError(err)) {
@@ -61,8 +62,9 @@ export const Register = () => {
       <p className="mt-2 text-ink/60">Create your account in less than a minute.</p>
 
       <DemoNotice>
-        This is a portfolio demo, so verification emails go to a private sandbox and won't reach your
-        inbox. To explore, <Link to="/auth/login" className="font-semibold text-coral">use a demo account</Link>.
+        This is a portfolio demo, so no verification email is sent. Your code will appear on the next
+        screen. New accounts are Pet Owners; to see the vet and shelter views, use a{' '}
+        <Link to="/auth/login" className="font-semibold text-coral">demo account</Link>.
       </DemoNotice>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5">
@@ -129,22 +131,33 @@ export const Register = () => {
         <div>
           <span className="form-label">I am a...</span>
           <div className="grid grid-cols-3 gap-2">
-            {ROLE_OPTIONS.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setForm({ ...form, role: option.value })}
-                className={`flex flex-col items-center gap-1 rounded-2xl border-2 px-2 py-3 text-xs font-medium transition-all ${form.role === option.value
+            {ROLE_OPTIONS.map((option) => {
+              const isLocked = SHOW_DEMO_ACCOUNTS && option.value !== 'pet_owner';
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  disabled={isLocked}
+                  title={isLocked ? 'Available through the demo accounts' : undefined}
+                  onClick={() => setForm({ ...form, role: option.value })}
+                  className={`flex flex-col items-center gap-1 rounded-2xl border-2 px-2 py-3 text-xs font-medium transition-all ${form.role === option.value
                     ? 'border-coral bg-coral-light text-coral-dark'
                     : 'border-ink/10 bg-white text-ink/60 hover:border-ink/20'
-                  }`}
-              >
-                <span className="text-xl">{option.emoji}</span>
-                {option.label}
-              </button>
-            ))}
+                    } ${isLocked ? 'cursor-not-allowed opacity-40 hover:border-ink/10' : ''}`}
+                >
+                  <span className="text-xl">{option.emoji}</span>
+                  {option.label}
+                </button>
+              );
+            })}
           </div>
         </div>
+
+        {SHOW_DEMO_ACCOUNTS && (
+          <p className="mt-2 text-xs text-ink/50">
+            Vet and shelter roles are available through the demo accounts on the login page.
+          </p>
+        )}
 
         {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>}
 

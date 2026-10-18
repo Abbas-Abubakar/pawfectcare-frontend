@@ -14,6 +14,7 @@ interface RegisterResponse {
   message: string;
   userId: string;
   email: string;
+  demoOtp?: string;
 }
 
 interface AuthResponse {
@@ -33,7 +34,9 @@ export const authApi = {
     return data;
   },
 
-  resendOtp: async (email: string): Promise<{ success: boolean; message: string }> => {
+  resendOtp: async (
+    email: string
+  ): Promise<{ success: boolean; message: string; demoOtp?: string }> => {
     const { data } = await apiClient.post('/auth/resend-otp', { email });
     return data;
   },
