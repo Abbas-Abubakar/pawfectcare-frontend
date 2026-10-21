@@ -6,6 +6,7 @@ import { PageLoader } from '@/components/PageLoader';
 export const ListingsList = () => {
   const { data, isLoading } = useMyListings();
   const listings = data?.listings ?? [];
+  
 
   return (
     <div>

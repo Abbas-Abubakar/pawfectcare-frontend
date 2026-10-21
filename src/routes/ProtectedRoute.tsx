@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import type { UserRole } from '../types';
+import { DashboardSkeleton } from '@/components/skeletons/DashboardSkeleton';
 
 interface ProtectedRouteProps {
   allowedRoles?: UserRole[];
@@ -10,11 +11,7 @@ export const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
   const { user, isAuthenticated, isLoading } = useAuthStore();
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-gray-500">Loading...</p>
-      </div>
-    );
+    return <DashboardSkeleton/>
   }
 
   if (!isAuthenticated) {
