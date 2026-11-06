@@ -1,4 +1,5 @@
 import type { AvailabilitySlot } from '@/types/appointment';
+import { toDateKey, formatDateOnly } from '@/utils/dateKey';
 
 interface SlotPickerProps {
   slots: AvailabilitySlot[];
@@ -6,16 +7,16 @@ interface SlotPickerProps {
   onSelect: (slot: AvailabilitySlot) => void;
 }
 
-const formatDateHeading = (dateString: string) => {
-  const date = new Date(dateString);
+
+const formatDateHeading = (dateKey: string) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
 
-  if (date.toDateString() === today.toDateString()) return 'Today';
-  if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow';
+  if (dateKey === toDateKey(today)) return 'Today';
+  if (dateKey === toDateKey(tomorrow)) return 'Tomorrow';
 
-  return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  return formatDateOnly(dateKey, { weekday: 'long', month: 'short', day: 'numeric' });
 };
 
 export const SlotPicker = ({ slots, selectedSlotId, onSelect }: SlotPickerProps) => {

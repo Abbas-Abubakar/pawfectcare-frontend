@@ -1,16 +1,13 @@
+import { toDateKey } from '@/utils/dateKey';
+
 export interface CalendarDay {
   date: Date;
-  dateKey: string; // YYYY-MM-DD, for matching against slot data
+  dateKey: string;
   isCurrentMonth: boolean;
   isToday: boolean;
   isPast: boolean;
 }
 
-/**
- * Builds a full 6-week grid for the given month, including the trailing/
- * leading days from adjacent months needed to fill complete weeks —
- * the standard shape every month-calendar UI needs.
- */
 export const buildMonthGrid = (year: number, month: number): CalendarDay[] => {
   const firstOfMonth = new Date(year, month, 1);
   const startDayOfWeek = firstOfMonth.getDay(); // 0 = Sunday
@@ -27,7 +24,7 @@ export const buildMonthGrid = (year: number, month: number): CalendarDay[] => {
 
     return {
       date,
-      dateKey: date.toISOString().slice(0, 10),
+      dateKey: toDateKey(date),
       isCurrentMonth: date.getMonth() === month,
       isToday: date.getTime() === today.getTime(),
       isPast: date.getTime() < today.getTime(),

@@ -3,19 +3,18 @@ import { useMyAvailability, useDeleteAvailability } from '@/hooks/useVetAvailabi
 import { AvailabilityCalendar } from '@/components/AvailabilityCalendar';
 import { Modal } from '@/components/Modal';
 import { AddAvailabilityForm } from '@/components/AddAvailabilityForm';
+import { toDateKey, formatDateOnly } from '@/utils/dateKey';
 
-const todayKey = new Date().toISOString().slice(0, 10);
 
 export const VetAvailabilityPage = () => {
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
-  const [selectedDateKey, setSelectedDateKey] = useState<string>(todayKey);
+  const [selectedDateKey, setSelectedDateKey] = useState<string>(() => toDateKey(new Date()));
   const [isAddOpen, setIsAddOpen] = useState(false);
 
-  // Fetch the whole visible month range so the calendar can mark which days have slots
-  const monthStart = new Date(year, month, 1).toISOString().slice(0, 10);
-  const monthEnd = new Date(year, month + 1, 0).toISOString().slice(0, 10);
+  const monthStart = toDateKey(new Date(year, month, 1));
+  const monthEnd = toDateKey(new Date(year, month + 1, 0));
 
   const { data, isLoading } = useMyAvailability({ from: monthStart, to: monthEnd });
   const deleteMutation = useDeleteAvailability();
@@ -28,7 +27,7 @@ export const VetAvailabilityPage = () => {
     .filter((s) => s.date.slice(0, 10) === selectedDateKey)
     .sort((a, b) => a.startTime.localeCompare(b.startTime));
 
-  const selectedDateLabel = new Date(selectedDateKey).toLocaleDateString('en-US', {
+  const selectedDateLabel = formatDateOnly(selectedDateKey, {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
@@ -69,9 +68,8 @@ export const VetAvailabilityPage = () => {
               selectedDaySlots.map((slot) => (
                 <div
                   key={slot._id}
-                  className={`flex items-center justify-between rounded-2xl border-2 px-4 py-3 text-sm font-medium ${
-                    slot.isBooked ? 'border-ink/10 bg-cream text-ink/40' : 'border-ink/10 bg-white text-ink'
-                  }`}
+                  className={`flex items-center justify-between rounded-2xl border-2 px-4 py-3 text-sm font-medium ${slot.isBooked ? 'border-ink/10 bg-cream text-ink/40' : 'border-ink/10 bg-white text-ink'
+                    }`}
                 >
                   <span>
                     {slot.startTime} – {slot.endTime}

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useCreateAvailability } from '@/hooks/useVetAvailability';
+import { toDateKey } from '@/utils/dateKey';
+
+
 
 interface TimeSlotInput {
   startTime: string;
@@ -67,7 +70,7 @@ export const AddAvailabilityForm = ({ onSuccess, prefilledDate }: AddAvailabilit
           id="date"
           type="date"
           required
-          min={new Date().toISOString().slice(0, 10)}
+          min={toDateKey(new Date())}
           className="input-field"
           value={date}
           onChange={(e) => setDate(e.target.value)}

@@ -32,7 +32,7 @@ import { NotificationsPage } from './pages/shared/NotificationsPage';
 import { VetPatientDetail } from './pages/vet/VetPatientDetail';
 import { VetPatients } from './pages/vet/VetPatients';
 import { VetDashboard } from './pages/vet/VetDashboard';
-import { VetAvailabilityPage } from './pages/VetAvailabilityPage';
+import { VetAvailabilityPage } from './pages/vet/VetAvailabilityPage';
 import { VetAppointmentsPage } from './pages/vet/VetAppointmentPage';
 import { ListingDetail } from './pages/shelter/ListingDettail';
 import { AddEditListing } from './pages/shelter/AddEditListing';
